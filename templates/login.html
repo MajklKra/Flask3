@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Přihlášení</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: flex-start;    /* Horizontální centrování */
+            align-items: center;     /* Vertikální centrování   */
+            height: 100vh;           /* Výška stránky na 100% */
+            margin: 0;               /* Odstranění defaultního okraje */
+            flex-direction: column;  /* Uspořádání prvků vertikálně */
+            margin-top: 100px;
+        }
+
+        h2 {
+            margin-bottom: 20px; /* Mezera pod nadpisem */
+            color: blue;
+        }
+
+        form {
+            border: 1px solid #ccc;  /* Volitelný okraj kolem formuláře */
+            padding: 20px;             /* Vnitřní okraje pro formulář */
+            border-radius: 5px;        /* Zaoblení rohů */
+            background-color: 	#F5F5F5;
+        }
+
+        table {
+            margin: 0 auto;           /* Centrování tabulky */
+        }
+
+        button {
+            margin-top: 10px;         /* Mezera nad tlačítkem */
+        }
+    </style>
+
+
+</head>
+<body>
+    <h2>Přihlášení</h2>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    </br>
+    <form action="/login" method="POST">
+        <table>
+            <tr>
+              <td>Uživatelské jméno:</td>
+              <td><input type="text" id="username" name="username" required></br></td>
+            </tr>
+            <tr>
+                <td>Heslo:</td>
+                <td><input type="password" id="password" name="password" required></br></td>
+            </tr>
+            <tr>
+                <td style="text-align: center;" colspan="2"><button type="submit">Přihlásit se</button></td>
+            </tr>
+          </table> 
+    </form>
+</body>
+</html>

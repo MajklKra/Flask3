@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Úvodní stránka</title>
+
+    <style>
+
+     th{
+        background-color: 	#F5F5F5;
+     }
+
+     body{
+        display: flex;
+        justify-content: flex-start;    /* Horizontální centrování */
+        align-items: center;     /* Vertikální centrování   */
+        height: 100vh;           /* Výška stránky na 100% */
+        margin: 0;               /* Odstranění defaultního okraje */
+        flex-direction: column;  /* Uspořádání prvků vertikálně */
+        /* margin-top: 100px; */
+
+        font-family: 'Times New Roman', Times, serif !important
+     }
+
+   
+    /* table, th, td 
+    {
+        border: 1px solid black;
+        border-collapse: collapse;
+    } */
+
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        td {
+            border: solid 1px #000;
+            border-style: none solid solid none;
+            padding: 10px;
+        }
+
+        th{
+            border: solid 1px #000;
+            border-bottom: none;
+            /* border-style: solid solid none solid; */
+            border-style: solid solid none none;
+            padding: 10px; 
+        }
+        
+        /* tr:first-child td:first-child { border-top-left-radius: 10px; }
+        tr:first-child td:last-child { border-top-right-radius: 10px; } */
+
+        tr:first-child th:first-child{ border-top-left-radius: 10px; }
+        tr:first-child th:last-child { border-top-right-radius: 10px; } 
+
+        tr:last-child td:first-child { border-bottom-left-radius: 10px; }
+        tr:last-child td:last-child { border-bottom-right-radius: 10px; }
+
+        tr:first-child td { border-top-style: solid; }
+        tr td:first-child { border-left-style: solid; }
+
+        tr th:first-child{border-left: solid 1px}
+
+        /* .container {
+            display: flex; /* Flexbox nastavení */
+            /* justify-content: space-between; /* Rozdělí obsah rovnoměrně */
+            /*width: 100%
+        } */
+
+        /* .box {
+            width: 45%; /* Nastavíme šířku, aby se oba divy vešly vedle sebe */
+            /* padding: 20px;
+            background-color: lightblue;
+            text-align: center;
+            border: 1px solid #ccc;
+            box-sizing: border-box; /* Zahrnuje padding do celkové šířky */
+        /* } */
+
+        #c1{
+            background-color: #696969;
+            /* width: 20%; */
+            height: 100vh; 
+            border-radius: 5px;
+        }
+
+        #c2{
+            background-color: #F5F5F5;
+            /* width: 80%; */
+            height: 100vh;
+            border-radius: 5px;
+        }
+
+        .accordion 
+        {
+            /* background-color: #eee; */
+            background-color: #696969;
+            /* color: #444; */
+            color: white;
+            cursor: pointer;
+            /*padding: 10px; */
+            padding-left: 20px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+        }
+
+        /* .active, .accordion:hover 
+        {
+          background-color: #ccc; 
+        } */
+
+        .accordion:hover 
+        {
+          background-color: #ccc; 
+        }
+
+        .active{
+            font-weight: bold;
+        } 
+
+        .accordion:after 
+        {
+            content: '\002B';
+            /* color: #777;  */
+            color: white; 
+            font-weight: bold;
+            float: left;
+            margin-left: 5px;
+            padding-right: 10px;
+        }
+
+        .active:after {
+        content: "\2212";
+        }
+
+        .panel 
+        {
+            /*padding: 0 18px; */
+            /*background-color: white; */
+            background-color: #696969;
+            color:white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+
+        .panel>a
+        {
+            color: white;
+            text-decoration: none;
+            /* padding-left: 50px; */
+            padding-left: 60px;
+            /*margin: 10px;*/
+        }
+        
+        .panel>p
+        {
+            color: white;
+            padding-top: 0px;
+            padding-bottom: 0px;
+            /*padding-left: 50px;*/
+            padding-left: 60px;
+            margin-top: 0px;
+            /*margin: 10px;*/
+            margin-bottom: 0px;
+        }
+
+        .container-fluid{
+            /*background-color: orange;*/
+        }
+
+        @media screen and (max-width: 300px) 
+        {
+            body
+            {
+                display: none;
+            }
+        }
+
+        @media screen and (min-width: 301px)and (max-width: 400px) 
+        {
+
+            #c1{
+                background-color: #696969;
+                /*width: 100%;*/
+            }
+
+            #c2{
+                background-color: #F5F5F5;
+                /*width: 100%;*/
+            }
+    
+        }
+
+
+        @media screen and (min-width: 401px) and (max-width: 575px) 
+        {
+
+            #c1{
+                background-color: #696969;
+                /*width: 100%;*/
+            }
+
+
+            #c2{
+                background-color: #F5F5F5;
+                /*width: 100%;*/
+            }
+        
+        }
+
+        @media screen and (min-width: 576px) and (max-width: 767px) 
+        {
+            #c1{
+                background-color: #696969;
+                /*width: 100%;*/
+            }
+
+
+            #c2{
+                background-color: #F5F5F5;
+                /*width: 100%;*/
+            }
+
+        }
+
+        @media screen and (min-width: 767px) and (max-width: 991px) 
+        {
+            #c1{
+                background-color: #696969;
+            }
+
+            #c2{
+                background-color: #F5F5F5;
+            }
+        }
+
+        @media screen and (min-width: 992px) and (max-width: 1199px) 
+        {
+            #c1{
+                background-color: #696969;
+            }
+
+            #c2{
+                background-color: #F5F5F5;
+            }
+
+        }
+
+        @media screen and (min-width: 1200px)
+        {
+
+            #c1{
+                background-color: #696969;
+            }
+            
+            #c2{
+                background-color: #F5F5F5;
+            }
+
+
+        }
+
+    </style>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div id="c1" class="col-12 col-md-4 col-lg-4 col-xl-4 col-xxl-2" >
+                <h1 style="color: white; margin: 50px 0px; text-align:left;">MS Server</h1>
+
+                <button class="accordion" style="font-size:large;">Struktura instituce</button>
+                <div class="panel">
+                    <p>Editace struktury</p>
+                    <p>Editace oddělení</p>
+                </div>
+
+                <button class="accordion" style="font-size:large;">Hardware</button>
+                <div class="panel">
+                    <a href="/device2">Diagnostika</a>
+                    <p>Dveřní zámky</p>
+                    <p>Kamery</p>
+                </div>
+
+                <button class="accordion" style="font-size:large;">Vazby</button>
+                <div class="panel">
+                    <p>Dratové prvky</p>
+                    <p>Bezdratové prvky</p>
+                    <p>NFC čipy</p>
+                    <p>Moduly</p>
+                    <p>Kamery</p>
+                    <p>Rozhraní</p>
+                </div>
+
+                <!-- <button class="accordion" style="font-size:large;"><b>Zaměstnanci</b></button>
+                <div class="panel">
+                </div> -->
+
+                <div style="padding-bottom:0px;padding-left: 50px; font-size: large; color: white;">
+                    Zaměstnanci
+                </div>
+
+                <div style="padding-bottom:0px;padding-left: 50px; font-size: large; color: white;">
+                    Klienti
+                </div>
+
+                <!-- <b style="padding-left: 40px; font-size: large; color: white;">Zaměstnanci</b></br> -->
+
+                <!-- <button class="accordion" style="font-size:large;"><b>Klienti</b></button>
+                <div class="panel">
+                </div> -->
+
+                <!-- <b style="padding-left: 40px; font-size: large; color: white; padding-top:30px; padding-bottom: 30px; margin-top: 30px; margin-bottom: 30px;">Klienti</b> -->
+
+                <button class="accordion" style="font-size:large;">Multimedia</button>
+                <div class="panel">
+                    <p>Rádia</p>
+                    <p>Televize</p>
+                </div>
+
+                <button class="accordion" style="font-size:large;">Nastroje</button>
+                <div class="panel">
+                    <p>Wireless config tool</p>
+                </div>
+
+            </div>
+
+            <div id="c2" class="col-12 col-md-8 col-lg-8 col-xl-8 col-xxl-10">
+              
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+        
+        for (i = 0; i < acc.length; i++) {
+          acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+              panel.style.maxHeight = null;
+            } else {
+              panel.style.maxHeight = panel.scrollHeight + "px";
+            } 
+          });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        
+
+</body>
+</html>
