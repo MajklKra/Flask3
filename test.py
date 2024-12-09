@@ -1,11 +1,34 @@
-from flask import Flask, render_template, request, url_for, redirect
 import mysql.connector
+from flask import Flask, render_template, redirect, url_for, request, flash
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+from flask_bcrypt import Bcrypt
+from flask import abort
+from functools import wraps
+import secrets
+from datetime import timedelta
+from flask import session
+from datetime import datetime
 
-MyName = "Michal"
-MyPassword = "Ostrava"
+# MyName = "Michal"
+# MyPassword = "Ostrava"
 
 # Vytvoření instance Flask aplikace
 app = Flask(__name__)
+
+app.secret_key = secrets.token_hex(16)
+bcrypt = Bcrypt(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+# Databáze uživatelů (pro jednoduchost hardcoded, použijte databázi pro produkci)
+users = {
+    "admin": {"password": bcrypt.generate_password_hash("adminpass").decode('utf-8'), "role": "admin"},
+    "user": {"password": bcrypt.generate_password_hash("userpass").decode('utf-8'), "role": "user"},
+    "footballer": {"password": bcrypt.generate_password_hash("fpass").decode('utf-8'), "role": "footballer"},
+    "Michal": {"password": bcrypt.generate_password_hash("Ostrava").decode('utf-8'), "role": "author"},
+}
 
 # Konfigurace připojení k MySQL databázi
 db_config = {
@@ -16,11 +39,50 @@ db_config = {
     'port': 3306                   # Port (standardně 3306)
 }
 
+# Třída User
+class User(UserMixin):
+    def __init__(self, username, role):
+        self.id = username
+        self.role = role
+
+# Načítání uživatele
+@login_manager.user_loader
+def load_user(username):
+    user = users.get(username)
+    if user:
+        return User(username, user["role"])
+    return None
+
+
+def role_required(*roles):
+    def decorator(func):
+        @wraps(func)
+        @login_required
+        def wrapper(*args, **kwargs):
+            if current_user.role not in roles:
+                abort(403)  # Forbidden
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+@app.route("/")
+def index():    
+    #return redirect(url_for('login'))
+    return render_template("index.html")
+    #return "Domovská stránka. <a href='/login'>Přihlásit se</a>"
 
 @app.route("/form")
 
 def form():
     return render_template("login.html")
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    session.clear()
+    flash("Odhlášení úspěšné!", "success")
+    return redirect(url_for('login'))
 
 
 @app.route("/login", methods=["POST", "GET"])
@@ -29,23 +91,20 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        # Jednoduchá kontrola přihlašovacích údajů
-        if username == MyName and password == MyPassword:
-            #return render_template("index.html", devices)  # Přesměrování na stránku po přihlášení
-            return redirect(url_for('device'))
+        user = users.get(username)
+
+        if user and bcrypt.check_password_hash(user['password'], password):
+                # session['user'] = user
+                login_user(User(username, user["role"]))
+                flash("Přihlášení úspěšné!", "success")
+                return redirect(url_for('device'))
         else:
-            return render_template("login.html", error="Nesprávné přihlašovací údaje")  # Chyba přihlášení
+            flash("Nesprávné uživatelské jméno nebo heslo.", "danger")
 
-    return render_template("login.html")  # Zobrazí přihlašovací formulář
-
-
-@app.route("/")
-def index():    
-    #return redirect(url_for('login'))
-    return render_template("index.html")
-    
+    return render_template('login.html')
 
 @app.route("/device")
+@role_required('admin','user')
 def device():
     try:
         # Připojení k MySQL databázi
@@ -73,8 +132,10 @@ def device():
         cursor.close()
         conn.close()
 
+        current_time = datetime.now()
+
         # Předání dat do šablony
-        return render_template("device.html", devices=results)
+        return render_template("device.html", devices=results, user=current_user, current_time=current_time)
 
     except mysql.connector.Error as err:
         # Zpracování chyby připojení
@@ -82,6 +143,7 @@ def device():
     
 
 @app.route("/device2")
+@role_required('admin','user')
 def device2():
     try:
         # Připojení k MySQL databázi

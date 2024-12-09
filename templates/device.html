@@ -90,6 +90,21 @@
             /* width: 80%; */
             height: 100vh;
             border-radius: 5px;
+            position: relative;
+        }
+
+        #c2>p>a{
+            text-decoration: none;
+            padding-left: 10px;
+            /* position: absolute;
+            top:30px;
+            right: 50px; */
+        }
+
+        #c2>p{
+            position: absolute;
+            top:30px;
+            right: 50px; 
         }
 
         .accordion 
@@ -157,7 +172,7 @@
             padding-left: 60px;
             /*margin: 10px;*/
         }
-        
+
         .panel>p
         {
             color: white;
@@ -273,7 +288,7 @@
 
 </head>
 <body>
-
+    
     <div class="container-fluid">
         <div class="row">
             <div id="c1" class="col-12 col-md-4 col-lg-4 col-xl-4 col-xxl-2" >
@@ -336,7 +351,9 @@
             </div>
 
             <div id="c2" class="col-12 col-md-8 col-lg-8 col-xl-8 col-xxl-10">
-              
+                <p>
+                    Aktuální datum a čas: {{ current_time.strftime('%Y-%m-%d %H:%M:%S') }}   &nbsp&nbsp Uživatel: {{user.id}} <a href="/logout">Odhlášení</a>
+                </p>
             </div>
 
         </div>
