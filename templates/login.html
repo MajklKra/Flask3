@@ -36,6 +36,19 @@
         button {
             margin-top: 10px;         /* Mezera nad tlačítkem */
         }
+
+        .error 
+        { 
+            color: #8B0000; 
+            font-weight: bold;
+            font-size:large;
+        }
+        .success 
+        { 
+            color: green; 
+            font-weight: bold;
+        }
+
     </style>
 
 
@@ -61,5 +74,27 @@
             </tr>
           </table> 
     </form>
+
+    <!-- {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %} -->
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <!-- <li class="{{ category }}">{{ message }}</li> -->
+                     <p class="{{ category }}">{{ message }}</p>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
 </body>
 </html>

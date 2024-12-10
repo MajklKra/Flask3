@@ -9,6 +9,10 @@ from datetime import timedelta
 from flask import session
 from datetime import datetime
 
+import locale
+
+from babel.dates import format_datetime
+
 # MyName = "Michal"
 # MyPassword = "Ostrava"
 
@@ -38,6 +42,7 @@ db_config = {
     'database': 'CodacoG2',        # Název databáze
     'port': 3306                   # Port (standardně 3306)
 }
+
 
 # Třída User
 class User(UserMixin):
@@ -99,7 +104,7 @@ def login():
                 flash("Přihlášení úspěšné!", "success")
                 return redirect(url_for('device'))
         else:
-            flash("Nesprávné uživatelské jméno nebo heslo.", "danger")
+            flash("Nesprávné uživatelské jméno nebo heslo !!!", "error")
 
     return render_template('login.html')
 
@@ -133,9 +138,11 @@ def device():
         conn.close()
 
         current_time = datetime.now()
+        formatted_time = format_datetime(current_time, "EEEE d. MMMM yyyy", locale="cs")
+        formatted_time = formatted_time[0].upper() + formatted_time[1:]
 
         # Předání dat do šablony
-        return render_template("device.html", devices=results, user=current_user, current_time=current_time)
+        return render_template("device.html", devices=results, user=current_user, current_time=current_time, formatted_time=formatted_time)
 
     except mysql.connector.Error as err:
         # Zpracování chyby připojení
